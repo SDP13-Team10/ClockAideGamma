@@ -19,7 +19,7 @@ sessionStart = 0
 # Hardware initialization
 
 BaudRate = 9600
-keypadLocation = "/dev/ttyUSB10"	# Every time it's reconnected the index increases /dev/ttyUSB# use ls /dev to check
+keypadLocation = "/dev/ttyUSB11"	# Every time it's reconnected the index increases /dev/ttyUSB# use ls /dev to check
 motorLocation = "/dev/ttyACM0"  # Might depend on the plug /dev/ttyACM1 (Index reset to zero on new power up)
 databaseLocation = "/home/pi/ClockAideGamma/ClockAideDatabase/ClockAideDB"
 
@@ -415,13 +415,14 @@ def teacher():
 	  print(keypad.write(command["good"])) 		# Sends acknowledgement to keypad
 	  time.sleep(2)
 	print 'Exporting data'
+
+###### Exporting data ####################	
 	print 'Answers'					# Export user inputs
 	data = cursor.execute("SELECT * FROM studentResponses")
-	f = open('activity_test.csv', 'w')
-	
+	f = open('activity.csv', 'w')
 	with open('./ClockAideDatabase/activity.csv', 'w') as f:
 	 writer = csv.writer(f)
-	 writer.writerow(['sid', 'qid', 'studentResponse'])
+	 writer.writerow(['sid', 'qid', 'studentResponse'])	# Allows for custom column labels
 	 writer.writerows(data)
 
 	print 'Logs'					# Export session log
@@ -430,18 +431,34 @@ def teacher():
 	
 	with open('./ClockAideDatabase/sessionLog.csv', 'w') as f:
 	 writer = csv.writer(f)
-	 writer.writerow(['sid', 'qid', 'studentResponse'])
+	 writer.writerow(['id','sessionStartTime', 'sessionEndTime', 'sessionID'])
 	 writer.writerows(data)
 
 	print 'users'					# Export lunch numbers
 	data = cursor.execute("SELECT * FROM students")
 	f = open('users.csv', 'w')
 	
-	with open('./ClockAideDatabase/users.csv', 'w') as f:
+	with open('./ClockAideDatabase/student.csv', 'w') as f:
 	 writer = csv.writer(f)
-	 writer.writerow(['sid', 'qid', 'studentResponse'])
+	 writer.writerow(['id', 'name', 'difficultyLevel'])
 	 writer.writerows(data)
+###### Exporting data ####################
+
+############## Saving data to flash ####################	
+	src0 = "./ClockAideDatabase/users.csv"
+  	dst0 = "../../../../media/PENDRIVE" 
 	
+	src1 = "./ClockAideDatabase/activity.csv"
+  	dst1 = "../../../../media/PENDRIVE" 
+
+	src2 = "./ClockAideDatabase/sessionLog.csv"
+  	dst2 = "../../../../media/PENDRIVE" 
+
+	fileCopy(src0, dst0)
+	fileCopy(src1, dst1)
+	fileCopy(src2, dst2)
+
+############## Saving data to flash ####################	
 	return modes[0]					# Return to normal mode
 
 def getTimeFromMotor():
@@ -514,6 +531,14 @@ def speakTime(hour,minute):
 
 	playVoiceMap = "mplayer %s 1>/dev/null 2>&1 " + hourFile + " " + minuteFile
 	os.system(playVoiceMap)
+
+def fileCopy(src, dst):
+
+ if dst != None:
+  shutil.copy(src, dst)			# This will overwrite the file if it exists
+  print "Copy Successful"
+
+
 def main():
 	
 	global mode	

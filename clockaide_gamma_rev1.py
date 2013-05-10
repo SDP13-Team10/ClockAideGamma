@@ -7,7 +7,7 @@ from questionBank import QuestionBank
 
 #----------------------------------
 # Database initialization
-db = sqlite3.connect("/home/pi/ClockAideDatabase/ClockAideDB")
+db = sqlite3.connect("/home/pi/ClockAideGamma/ClockAideDatabase/ClockAideDB")
 cursor = db.cursor()
 
 startTime = 0
@@ -19,9 +19,9 @@ sessionStart = 0
 # Hardware initialization
 
 BaudRate = 9600
-keypadLocation = "/dev/ttyUSB0"	# Every time it's reconnected the index increases /dev/ttyUSB# use ls /dev to check
+keypadLocation = "/dev/ttyUSB1"	# Every time it's reconnected the index increases /dev/ttyUSB# use ls /dev to check
 motorLocation = "/dev/ttyACM0"  # Might depend on the plug /dev/ttyACM1 (Index reset to zero on new power up)
-databaseLocation = "/home/pi/ClockAideDatabase/ClockAideDB"
+databaseLocation = "/home/pi/ClockAideGamma/ClockAideDatabase/ClockAideDB"
 
 keypad = serial.Serial(keypadLocation,BaudRate)
 motor = serial.Serial(motorLocation,BaudRate)
@@ -102,7 +102,7 @@ namesID = {
 	"321"  : "Joel", \
 	"654"  : "Prof Leonard", \
 	"987"  : "Prof Soules", \
-	"111"  : "Prof Ciesielski", \
+	"852"  : "Megan Ferrari", \
         "222"  : "Prof Janaswamy", \
 	"333"  : "Prof Hollot", \
 	"444"  : "Prof Salthouse"

@@ -75,7 +75,7 @@ namesID = {
 	"654"  : "Prof Leonard", \
 	"987"  : "Prof Soules", \
 	"111"  : "Prof Ciesielski", \
-        "222"  : "Prof Janaswamy", \
+    "222"  : "Prof Janaswamy", \
 	"333"  : "Prof Hollot", \
 	"444"  : "Prof Salthouse"
 	}
@@ -213,7 +213,11 @@ def set():
 		return modes[0]
 
 def getTimeFromMotor():
-	return "4, 15"
+#	return "4, 15"
+	print(motor.write(command["get_time"]))
+	time.sleep(2)
+	return motor.read(5)
+	
 		
 def checkReadTime(readTime, sentTime):
 

@@ -1,0 +1,16 @@
+#!/usr/bin/bash
+# 5/1/13 Exports all data from ClockAide database
+# 	 Prepares it for file copy to USB
+
+sudo sqlite3 ClockAideDB <<!
+.mode list
+.separator |
+.output users_test.csv
+ select * from students;
+
+.output Activity_test.csv
+ select * from studentResponses;
+
+.output logs_test.csv
+ select * from sessionLog;
+!

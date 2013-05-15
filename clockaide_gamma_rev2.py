@@ -19,7 +19,7 @@ sessionStart = 0
 # Hardware initialization
 
 BaudRate = 9600
-keypadLocation = "/dev/ttyUSB11"	# Every time it's reconnected the index increases /dev/ttyUSB# use ls /dev to check
+keypadLocation = "/dev/ttyUSB4" # Every time it's reconnected the index increases /dev/ttyUSB# use ls /dev to check
 motorLocation = "/dev/ttyACM0"  # Might depend on the plug /dev/ttyACM1 (Index reset to zero on new power up)
 databaseLocation = "/home/pi/ClockAideGamma/ClockAideDatabase/ClockAideDB"
 
@@ -412,9 +412,8 @@ def teacher():
 	comm = COMMAND[str(keypad.read())]		# Receives command signal from keypad
 	
 	if comm == "DATA":
-	  print(keypad.write(command["good"])) 		# Sends acknowledgement to keypad
-	  time.sleep(2)
-	print 'Exporting data'
+	  
+	 print 'Exporting data'
 
 ###### Exporting data ####################	
 	print 'Answers'					# Export user inputs
@@ -458,8 +457,13 @@ def teacher():
 	fileCopy(src1, dst1)
 	fileCopy(src2, dst2)
 
-############## Saving data to flash ####################	
-	return modes[0]					# Return to normal mode
+############## Saving data to flash ####################
+	print(keypad.write(command["good"])) 		# Sends acknowledgement to keypad
+	time.sleep(2)
+	print(keypad.write(modeLookUp["normal"]))
+	print(motor.write(modeLookUp["normal"]))	# Return to normal mode
+	
+	return modes[0]					
 
 def getTimeFromMotor():
 	return "4, 15"

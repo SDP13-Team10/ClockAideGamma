@@ -19,7 +19,7 @@ sessionStart = 0
 # Hardware initialization
 
 BaudRate = 9600
-keypadLocation = "/dev/ttyUSB1"	# Every time it's reconnected the index increases /dev/ttyUSB# use ls /dev to check
+keypadLocation = "/dev/ttyUSB0"	# Every time it's reconnected the index increases /dev/ttyUSB# use ls /dev to check
 motorLocation = "/dev/ttyACM0"  # Might depend on the plug /dev/ttyACM1 (Index reset to zero on new power up)
 databaseLocation = "/home/pi/ClockAideGamma/ClockAideDatabase/ClockAideDB"
 
@@ -278,10 +278,10 @@ def read():
 
 		sql = "INSERT INTO studentResponses (sid,studentResponse) VALUES (?,?)" # Save user input
 		cursor.execute(sql, [(correct), (answer)])
-		db.commit()
+		#db.commit()
 
 		print(keypad.write(command["good"]))
-		time.sleep(3)
+		time.sleep(7)
 		print(keypad.write(modeLookUp["normal"]))
 		print(motor.write(modeLookUp["normal"]))
 
@@ -298,7 +298,7 @@ def read():
 
 		sql = "INSERT INTO studentResponses (sid,studentResponse) VALUES (?,?)" # Save user input
 		cursor.execute(sql, [(correct), (answer)])
-		db.commit()
+		#db.commit()
 	
 		print(keypad.write(command["wrong"]))
 		time.sleep(2)
@@ -358,10 +358,10 @@ def set():
 						
 			sql = "INSERT INTO studentResponses (sid,studentResponse) VALUES (?,?)" # Save user input
 			cursor.execute(sql, [(correct), (answer)])
-			db.commit()
+			#db.commit()
 
 			print(keypad.write(command["good"]))
-			time.sleep(2)
+			time.sleep(5)
 			print(keypad.write(modeLookUp["normal"]))
 			print(motor.write(modeLookUp["normal"]))
 			

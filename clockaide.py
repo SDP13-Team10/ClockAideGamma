@@ -100,7 +100,7 @@ def normal():
 	print "in normal"
 	try:
 		print keypad.inWaiting()
-		comm = COMMAND[str(keypad.read())]		## use different method other than stuff dictionary
+		comm = COMMAND[str(keypad.read())]		
 		print "recieved" 
 		print comm
 		if comm == "SPEAK_TIME":
@@ -128,7 +128,9 @@ def checkID():
 	global id
 	global name
 	try:
-		id = keypad.read(3)
+		while keypad.inWaiting() > 0:
+			id += keypad.read()
+			#id = keypad.read(3)
 		name = namesID[id]		## replace this with function to check input ID vs. database
 		if name:
 			print(keypad.write(command["good"]))			## Sends "Correct" Code to Keypad
